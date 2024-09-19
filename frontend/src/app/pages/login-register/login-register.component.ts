@@ -13,18 +13,27 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 
 export class LoginRegisterComponent {
+
+  StrongPasswordRegx: RegExp = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/
+
+  errors = [
+    {type: "required", message: "Field must not be empty"},
+    {type: "maxlength", message: "Field length is too big"},
+    {type: "minlength", message: "Field length is too small"},
+    {type: "email", message: "Field must be an email"},
+  ]
+
   logInForm = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required])
   });
 
-  // TODO: Add validators
   registerForm = new FormGroup({
-    firstName: new FormControl("", [Validators.required]),
-    lastName: new FormControl("", [Validators.required]),
-    username: new FormControl("", [Validators.required]),
-    email: new FormControl("", [Validators.required]),
-    password: new FormControl("", [Validators.required]),
+    firstName: new FormControl("", [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
+    lastName: new FormControl("", [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
+    username: new FormControl("", [Validators.required, Validators.maxLength(16), Validators.minLength(2)]),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl("", [Validators.required, Validators.pattern(this.StrongPasswordRegx)]),
     passwordConfirmation: new FormControl("", [Validators.required])
   })
 
