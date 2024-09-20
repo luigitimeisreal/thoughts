@@ -43,8 +43,16 @@ export class LoginRegisterComponent {
   }
 
   tryRegistration() {
-    console.log("Trying to register");
     console.log(this.registerForm.value);
+    if(this.registerForm.value.password !== this.registerForm.value.passwordConfirmation) {
+      console.log("The passwords are not the same");
+      return;
+    }
+    if(!this.registerForm.valid) {
+      console.log("There are errors in the fields");
+      return;
+    }
+    console.log("Trying to register");
   }
 
 }
