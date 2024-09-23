@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 main().catch(err => console.log(err));
 
@@ -18,7 +20,7 @@ async function main() {
         lastName: "Administrador",
         username: "admin1",
         email: "no data",
-        password: "1234"
+        password: process.env.ADMIN_PASSWORD
     });
     await admin1.save();
     console.log("Installation finished");
