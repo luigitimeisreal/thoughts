@@ -42,7 +42,7 @@ export class LoginRegisterComponent {
 
   checkLogin() {
     console.log("Trying to log in");
-    console.log(this.logInForm.value);
+    
   }
 
   tryRegistration() {

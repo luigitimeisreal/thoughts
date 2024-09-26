@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import User from "./models/user.js"
+import bcrypt from "bcrypt";
 
 const app = express();
 
@@ -23,7 +24,25 @@ app.get("/api/", (req, res) => {
 // Register user
 app.post("/api/register", (req, res) => {
     console.log("Parameters: ", req.body.firstName);
-    // Creation of user collection
+    register(req.body).catch(err => console.log(err));
     res.json(req.body);
 })
+
+// Check if login details are correct
+app.get("/api/login", (req, res) => {
+    res.json(req.body);
+})
+
+async function register(userData) {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    const encryptedPassword = await bcrypt.hash(userData.password, 10);
+    const newUser = new User({
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        username: userData.username,
+        email: userData.email,
+        password: encryptedPassword
+    });
+    await newUser.save();
+}
 

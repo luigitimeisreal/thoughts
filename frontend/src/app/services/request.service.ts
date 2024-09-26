@@ -21,4 +21,8 @@ export class RequestService {
     return this.httpClient.post(`${this.urlApi}/register`, userData);
   }
 
+  checkLogin(username: String, password: String): Observable<any> {
+    return this.httpClient.get(`${this.urlApi}/login?user=${username}&pass=${password}`);
+  }
+
 }
