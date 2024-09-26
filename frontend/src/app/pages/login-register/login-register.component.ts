@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TextBarComponent } from '../../components/text-bar/text-bar.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RequestService } from '../../services/request.service';
 
 @Component({
   selector: 'login-register',
@@ -13,6 +14,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 
 export class LoginRegisterComponent {
+
+  constructor(private requestService:RequestService) {}
 
   StrongPasswordRegx: RegExp = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/
 
@@ -43,7 +46,6 @@ export class LoginRegisterComponent {
   }
 
   tryRegistration() {
-    console.log(this.registerForm.value);
     if(this.registerForm.value.password !== this.registerForm.value.passwordConfirmation) {
       console.log("The passwords are not the same");
       return;
@@ -52,6 +54,10 @@ export class LoginRegisterComponent {
       console.log("There are errors in the fields");
       return;
     }
+    this.requestService.registerUser(this.registerForm.value)
+      .subscribe((data) => {
+        console.log("Data received", data);
+      })
     console.log("Trying to register");
   }
 
