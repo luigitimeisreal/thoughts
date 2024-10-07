@@ -21,6 +21,9 @@
                   class="block text-sm font-medium leading-6 text-white"
                   >User name</label
                 >
+                @if(logInForm.get('username')?.hasError("required") && logInForm.get('username')?.touched) {
+                  <p class="text-red">User name is required</p>
+                }
                 <div class="mt-2">
                   <input
                     id="username"
@@ -41,6 +44,9 @@
                     class="block text-sm font-medium leading-6 text-white"
                     >Password</label
                   >
+                  @if(logInForm.get('password')?.hasError("required") && logInForm.get('password')?.touched) {
+                    <p class="text-red">Password is required</p>
+                  }
                   <div class="text-sm">
                     <a
                       href="#"

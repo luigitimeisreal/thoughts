@@ -29,8 +29,15 @@ app.post("/api/register", (req, res) => {
 })
 
 // Check if login details are correct
-app.get("/api/login", (req, res) => {
-    res.json(req.body);
+app.get("/api/login", async (req, res) => {
+    const password = await getPassword(req.query.user);
+    const isValid = await bcrypt.compare(req.query.pass.trim(), password.trim());
+    console.log(password, "enters 3");
+    if(isValid) {
+        res.json({"login": "correct"});
+    } else {
+        res.json({"login": "incorrect"});
+    }
 })
 
 async function register(userData) {
@@ -46,3 +53,10 @@ async function register(userData) {
     await newUser.save();
 }
 
+async function getPassword(username) {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    const currentUser = await User.findOne({"username": username});
+    if(!currentUser) return false;
+    console.log("User recovered: ", currentUser.password);
+    return currentUser.password;
+}

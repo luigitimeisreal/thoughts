@@ -42,7 +42,13 @@ export class LoginRegisterComponent {
 
   checkLogin() {
     console.log("Trying to log in");
-    
+    if(!this.logInForm.valid) {
+      console.log("Log in data should be provided");
+    }
+    this.requestService.checkLogin(this.logInForm.value.username!, this.logInForm.value.password!)
+      .subscribe((data) => {
+        console.log("Data received login", data);
+      })
   }
 
   tryRegistration() {
