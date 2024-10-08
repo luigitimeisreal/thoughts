@@ -47,7 +47,13 @@ export class LoginRegisterComponent {
     }
     this.requestService.checkLogin(this.logInForm.value.username!, this.logInForm.value.password!)
       .subscribe((data) => {
-        console.log("Data received login", data);
+        if(data.login === "correct") {
+          console.log("User logged in");
+          // JWT process
+          this.logInForm.reset();
+        } else {
+          console.log("Failed to login");
+        }
       })
   }
 
@@ -63,6 +69,7 @@ export class LoginRegisterComponent {
     this.requestService.registerUser(this.registerForm.value)
       .subscribe((data) => {
         console.log("Data received", data);
+        this.registerForm.reset();
       })
     console.log("Trying to register");
   }

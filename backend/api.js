@@ -30,14 +30,20 @@ app.post("/api/register", (req, res) => {
 
 // Check if login details are correct
 app.get("/api/login", async (req, res) => {
-    const password = await getPassword(req.query.user);
-    const isValid = await bcrypt.compare(req.query.pass.trim(), password.trim());
-    console.log(password, "enters 3");
-    if(isValid) {
-        res.json({"login": "correct"});
-    } else {
-        res.json({"login": "incorrect"});
+    try {
+        const password = await getPassword(req.query.user);
+        const isValid = await bcrypt.compare(req.query.pass.trim(), password.trim());
+        console.log(password, "enters 3");
+        if(isValid) {
+            res.json({"login": "correct"});
+        } else {
+            res.json({"login": "incorrect"});
+        }
+    } catch {
+        res.json({"login": "incorrect"})
     }
+    
+
 })
 
 async function register(userData) {
