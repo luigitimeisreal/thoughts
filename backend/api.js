@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import User from "./models/user.js"
 import bcrypt from "bcrypt";
+import cookieSession from "cookie-session";
 
 const app = express();
 
@@ -11,6 +12,11 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(cookieSession({
+    name: "thoughts-session",
+    keys: ["COOKIE_SECRET"],
+    httpOnly: true
+  }));
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);    
