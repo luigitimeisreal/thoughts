@@ -38,8 +38,9 @@ app.post("/api/register", (req, res) => {
 app.get("/api/login", async (req, res) => {
     try {
         const password = await getPassword(req.query.user);
-        const isValid = await bcrypt.compare(req.query.pass.trim(), password.trim());
-        console.log(password, "enters 3");
+        console.log("enters 4", req.query.pass);
+        const isValid = await bcrypt.compare(req.query.pass, password);
+        console.log(isValid, "enters 3");
         if(isValid) {
             res.json({"login": "correct"});
         } else {

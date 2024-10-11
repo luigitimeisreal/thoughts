@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TextBarComponent } from '../../components/text-bar/text-bar.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RequestService } from '../../services/request.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login-register',
@@ -15,7 +16,10 @@ import { RequestService } from '../../services/request.service';
 
 export class LoginRegisterComponent {
 
-  constructor(private requestService:RequestService) {}
+  constructor(
+    private requestService:RequestService,
+    private router:Router
+  ) {}
 
   StrongPasswordRegx: RegExp = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/
 
@@ -42,17 +46,21 @@ export class LoginRegisterComponent {
 
   checkLogin() {
     console.log("Trying to log in");
+    console.log(this.logInForm.value.password);
+    
     if(!this.logInForm.valid) {
       console.log("Log in data should be provided");
     }
-    this.requestService.checkLogin(this.logInForm.value.username!, this.logInForm.value.password!)
+    this.requestService.checkLogin(this.logInForm.value.username!, encodeURIComponent(this.logInForm.value.password!))
       .subscribe((data) => {
         if(data.login === "correct") {
           console.log("User logged in");
           // JWT process
           this.logInForm.reset();
+          this.router.navigateByUrl("home");
         } else {
           console.log("Failed to login");
+          console.log(data.login);
         }
       })
   }
