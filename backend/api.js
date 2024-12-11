@@ -5,10 +5,13 @@ import mongoose from "mongoose";
 import User from "./models/user.js"
 import bcrypt from "bcrypt";
 import cookieSession from "cookie-session";
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
 
 const app = express();
 
 const port = process.env.PORT || 3000;
+dotenv.config();
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -41,13 +44,16 @@ app.get("/api/login", async (req, res) => {
         console.log("enters 4", req.query.pass);
         const isValid = await bcrypt.compare(req.query.pass, password);
         console.log(isValid, "enters 3");
+        const token = jwt.sign({ username: req.query.user }, process.env.SECRET_KEY);
+        console.log(token);
         if(isValid) {
             res.json({"login": "correct"});
         } else {
             res.json({"login": "incorrect"});
         }
-    } catch {
+    } catch(error) {
         res.json({"login": "incorrect"})
+        console.log(error);
     }
     
 
