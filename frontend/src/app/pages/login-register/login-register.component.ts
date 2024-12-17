@@ -58,6 +58,7 @@ export class LoginRegisterComponent {
           // JWT process
           this.logInForm.reset();
           this.router.navigateByUrl("home");
+          localStorage.setItem("userToken", data.token);
         } else {
           console.log("Failed to login");
           console.log(data.login);

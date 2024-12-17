@@ -46,8 +46,8 @@ app.get("/api/login", async (req, res) => {
         console.log(isValid, "enters 3");
         const token = jwt.sign({ username: req.query.user }, process.env.SECRET_KEY);
         console.log(token);
-        if(isValid) {
-            res.json({"login": "correct"});
+        if (isValid) {
+            res.json({"login": "correct", "token": token});
         } else {
             res.json({"login": "incorrect"});
         }
