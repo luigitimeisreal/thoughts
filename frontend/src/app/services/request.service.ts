@@ -25,4 +25,7 @@ export class RequestService {
     return this.httpClient.get(`${this.urlApi}/login?user=${username}&pass=${password}`);
   }
 
+  // Publish a new post
+  
+
 }

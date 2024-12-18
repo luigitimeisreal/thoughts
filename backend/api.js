@@ -37,6 +37,8 @@ app.post("/api/register", (req, res) => {
     res.json(req.body);
 })
 
+// Upload post
+
 // Check if login details are correct
 app.get("/api/login", async (req, res) => {
     try {
