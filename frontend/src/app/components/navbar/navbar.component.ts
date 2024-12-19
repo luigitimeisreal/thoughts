@@ -15,4 +15,8 @@ export class NavbarComponent {
   profileOptionsClicked = false;
   userToken: string | null = localStorage.getItem("userToken");
 
+  signOut() {
+    localStorage.removeItem("userToken");
+  }
+
 }

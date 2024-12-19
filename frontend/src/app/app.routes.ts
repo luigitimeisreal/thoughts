@@ -3,6 +3,7 @@ import { LoginRegisterComponent } from './pages/login-register/login-register.co
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
+    { path: "", redirectTo: "home", pathMatch: "full"},
     { path: "auth", component: LoginRegisterComponent },
     { path: "home", component: HomeComponent }
 ];
