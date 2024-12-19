@@ -38,6 +38,12 @@ app.post("/api/register", (req, res) => {
 })
 
 // Upload post
+app.post("/api/publish", (req, res) => {
+    console.log(req.body.userToken);
+    const decryptedData = jwt.verify(req.body.userToken, process.env.SECRET_KEY);
+    console.log("Obtaining user", decryptedData.username);
+    
+})
 
 // Check if login details are correct
 app.get("/api/login", async (req, res) => {
@@ -81,3 +87,4 @@ async function getPassword(username) {
     console.log("User recovered: ", currentUser.password);
     return currentUser.password;
 }
+
