@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import User from "./models/user.js"
+import Post from "./models/post.js"
 import bcrypt from "bcrypt";
 import cookieSession from "cookie-session";
 import jwt from "jsonwebtoken"
@@ -42,7 +43,7 @@ app.post("/api/publish", (req, res) => {
     console.log(req.body.userToken);
     const decryptedData = jwt.verify(req.body.userToken, process.env.SECRET_KEY);
     console.log("Obtaining user", decryptedData.username);
-    
+    savePost(req.body.text, decryptedData.username);
 })
 
 // Check if login details are correct
@@ -78,6 +79,17 @@ async function register(userData) {
         password: encryptedPassword
     });
     await newUser.save();
+}
+
+async function savePost(text, user) {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    const newTextPost = new Post({
+        profilePhoto: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+        user: user,
+        content: text,
+        likes: 0
+    })
+    await newTextPost.save();
 }
 
 async function getPassword(username) {
