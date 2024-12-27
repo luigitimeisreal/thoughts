@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TextPostData } from '../../interfaces/text-post-data';
 
 @Component({
@@ -8,10 +8,14 @@ import { TextPostData } from '../../interfaces/text-post-data';
   templateUrl: './text-post.component.html',
   styleUrl: './text-post.component.css'
 })
-export class TextPostComponent {
+export class TextPostComponent implements OnInit {
 
+  @Input()
   postData!: TextPostData;
 
-  
+  ngOnInit(): void {
+    console.log("Single post data", this.postData);    
+  }
 
+  
 }

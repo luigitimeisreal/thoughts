@@ -30,7 +30,10 @@ export class RequestService {
     return this.httpClient.get(`${this.urlApi}/login?user=${username}&pass=${password}`);
   }
 
-  // Publish a new post
+  // Obtain 10 posts 
+  obtain10Posts(currentPostNumber: Number) {
+    return this.httpClient.get(`${this.urlApi}/posts?number=${currentPostNumber}`);
+  }
   
 
 }

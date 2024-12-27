@@ -68,6 +68,18 @@ app.get("/api/login", async (req, res) => {
 
 })
 
+// Obtain tweets
+app.get("/api/posts", async (req, res) => {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    const posts = await Post.
+    find().
+    sort({ _id: -1 }).
+    skip(req.query.number).
+    limit(10).
+    exec();
+    res.json(posts);
+})
+
 async function register(userData) {
     await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
     const encryptedPassword = await bcrypt.hash(userData.password, 10);

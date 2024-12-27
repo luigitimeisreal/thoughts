@@ -1,12 +1,7 @@
 <navbar></navbar>
 <div class="mainl" infiniteScroll (scrolled)="onScroll()">
     <new></new>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
-    <text-post></text-post>
+    @for (singlePost of currentPosts; track $index) {
+        <text-post [postData]="singlePost"></text-post>
+    }
 </div>
