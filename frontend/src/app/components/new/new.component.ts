@@ -28,6 +28,7 @@ export class NewComponent {
       this.requestService.publishTextPost(postData).subscribe((data) => {
         console.log("Enters subscribe");
       })
+      this.postForm.reset();
     }
   }
 

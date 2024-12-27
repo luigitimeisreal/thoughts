@@ -83,11 +83,17 @@ async function register(userData) {
 
 async function savePost(text, user) {
     await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    let date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1);
+    const day = String(date.getDate());
+    let fullDate = `${year}-${month}-${day}`;
     const newTextPost = new Post({
         profilePhoto: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
         user: user,
         content: text,
-        likes: 0
+        likes: 0,
+        date: fullDate
     })
     await newTextPost.save();
 }
