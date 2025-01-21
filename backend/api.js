@@ -80,6 +80,14 @@ app.get("/api/posts", async (req, res) => {
     res.json(posts);
 })
 
+app.get("/api/user", async (req, res) => {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    console.log(req.query.token);
+    const decryptedData = jwt.verify(req.query.token, process.env.SECRET_KEY);
+    console.log("Obtaining user", decryptedData.username);
+    res.json(decryptedData.username);
+})
+
 async function register(userData) {
     await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
     const encryptedPassword = await bcrypt.hash(userData.password, 10);

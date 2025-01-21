@@ -35,5 +35,11 @@ export class RequestService {
     return this.httpClient.get(`${this.urlApi}/posts?number=${currentPostNumber}`);
   }
   
+  // Obtain current user
+  obtainCurrentUser(userToken: any) {
+    return this.httpClient.get(`${this.urlApi}/user?token=${userToken}`)    
+  }
+
+  
 
 }

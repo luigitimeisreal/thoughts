@@ -1,7 +1,7 @@
 export interface TextPostData {
     content: string,
     date: string,
-    likes: number,
+    likes: String[],
     profilePhoto: string,
     user: string,
     _v: number,

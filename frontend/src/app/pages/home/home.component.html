@@ -1,6 +1,7 @@
 <navbar></navbar>
 <div class="mainl" infiniteScroll (scrolled)="onScroll()">
-    <new></new>
+    <new (publishedNewPost)="onNewPost()"></new>
+    <!-- <reply></reply> -->
     @for (singlePost of currentPosts; track $index) {
         <text-post [postData]="singlePost"></text-post>
     }

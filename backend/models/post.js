@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
     profilePhoto: String,
     user: String,
     content: String,
-    likes: Number,
+    likes: [String],
     date: Date
 })
 

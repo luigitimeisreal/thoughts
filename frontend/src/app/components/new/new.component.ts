@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RequestService } from '../../services/request.service';
 
@@ -12,6 +12,8 @@ import { RequestService } from '../../services/request.service';
 export class NewComponent {
 
   constructor(private requestService:RequestService) {}
+  
+  @Output() publishedNewPost = new EventEmitter();
 
   userToken: string | null = localStorage.getItem("userToken");
 
@@ -29,6 +31,7 @@ export class NewComponent {
         console.log("Enters subscribe");
       })
       this.postForm.reset();
+      this.publishedNewPost.emit();
     }
   }
 
