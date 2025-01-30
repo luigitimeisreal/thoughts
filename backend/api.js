@@ -86,6 +86,39 @@ app.get("/api/user", async (req, res) => {
     const decryptedData = jwt.verify(req.query.token, process.env.SECRET_KEY);
     console.log("Obtaining user", decryptedData.username);
     res.json(decryptedData.username);
+    return;
+})
+
+app.put("/api/likes/add", async (req, res) => {
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    /*
+    db.posts.updateOne(
+        { _id: ObjectId('678fe8e9410b3391c10e25e9') }, 
+        { $push: { likes: 'newuser' } }
+      );
+    */
+   // Check if it is in array already
+   let postIdObject = new mongoose.Types.ObjectId(`${req.body.postId}`);
+   let likesPost = await Post.
+   findOne({_id: postIdObject})
+   let isLiked = false;
+   const decryptedData = jwt.verify(req.body.userToken, process.env.SECRET_KEY);
+   likesPost.likes.forEach(user => {
+    if(user === decryptedData.username) {
+        isLiked = true;
+    }
+   })
+   // If it's not, add it
+   console.log(isLiked);
+   if(!isLiked) {
+    await Post.updateOne(
+        { _id: postIdObject },
+        { $push: { likes: decryptedData.username } }
+    )
+    res.json(true);
+   }
+   res.json(false);
+   return;
 })
 
 async function register(userData) {
@@ -112,7 +145,7 @@ async function savePost(text, user) {
         profilePhoto: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
         user: user,
         content: text,
-        likes: 0,
+        likes: [],
         date: fullDate
     })
     await newTextPost.save();

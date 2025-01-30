@@ -40,6 +40,12 @@ export class RequestService {
     return this.httpClient.get(`${this.urlApi}/user?token=${userToken}`)    
   }
 
-  
+  addLikeToPost(userToken: string, postId: string) {
+    let likeData = {
+      userToken: userToken,
+      postId: postId
+    }
+    return this.httpClient.put(`${this.urlApi}/likes/add`, likeData);
+  }
 
 }

@@ -18,6 +18,7 @@ export class TextPostComponent implements OnInit {
 
   isLiked = false;
   userToken: string | null = localStorage.getItem("userToken");
+  likeCounter!: number;
 
   ngOnInit(): void {
     console.log("Single post data", this.postData);
@@ -33,10 +34,20 @@ export class TextPostComponent implements OnInit {
     } else {
       this.isLiked = false;
     }
+    this.likeCounter = this.postData.likes.length;
   }
 
   changeLike() {
-    
+    if (!this.isLiked) {
+      this.requestService.addLikeToPost(this.userToken!, this.postData._id)
+      .subscribe((likeSuccess) => {
+        console.log("IS LIKED?", likeSuccess);
+        if(likeSuccess) {
+          this.isLiked = !this.isLiked;
+          this.likeCounter++;
+        }
+      })
+    }
     // this.isLiked = !this.isLiked;
   }
 
