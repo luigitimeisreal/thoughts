@@ -48,4 +48,14 @@ export class RequestService {
     return this.httpClient.put(`${this.urlApi}/likes/add`, likeData);
   }
 
+  removeLikeOfPost(userToken: string, postId: string) {
+    let likeData = {
+      userToken: userToken,
+      postId: postId
+    }
+    return this.httpClient.request('delete', `${this.urlApi}/likes/remove`, {
+      body: likeData
+    });    
+  }
+
 }

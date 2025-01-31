@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import User from "./models/user.js"
-import Post from "./models/post.js"
+import Post from "./models/post.js";
 import bcrypt from "bcrypt";
 import cookieSession from "cookie-session";
 import jwt from "jsonwebtoken"
@@ -91,12 +91,6 @@ app.get("/api/user", async (req, res) => {
 
 app.put("/api/likes/add", async (req, res) => {
     await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
-    /*
-    db.posts.updateOne(
-        { _id: ObjectId('678fe8e9410b3391c10e25e9') }, 
-        { $push: { likes: 'newuser' } }
-      );
-    */
    // Check if it is in array already
    let postIdObject = new mongoose.Types.ObjectId(`${req.body.postId}`);
    let likesPost = await Post.
@@ -116,10 +110,30 @@ app.put("/api/likes/add", async (req, res) => {
         { $push: { likes: decryptedData.username } }
     )
     res.json(true);
+   } else {
+    res.json(false);
    }
-   res.json(false);
    return;
 })
+
+app.delete("/api/likes/remove", async (req, res) => {
+    console.log("Remove L received", req.body);
+    await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');
+    let postIdObject = new mongoose.Types.ObjectId(`${req.body.postId}`);
+    const decryptedData = jwt.verify(req.body.userToken, process.env.SECRET_KEY);
+    await Post.updateOne(
+        { _id: postIdObject },
+        { $pull: { likes: decryptedData.username } }
+      );
+})
+
+/*
+No overload matches this call.
+db.posts.updateOne(
+  { _id: ObjectId('678fe8e9410b3391c10e25e9') },
+  { $pull: { likes: 'newuser' } }
+);
+*/
 
 async function register(userData) {
     await mongoose.connect('mongodb://127.0.0.1:27017/thoughts');

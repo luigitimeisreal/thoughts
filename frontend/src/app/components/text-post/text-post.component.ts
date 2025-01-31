@@ -27,6 +27,7 @@ export class TextPostComponent implements OnInit {
         .subscribe((user: any) => {
           this.postData.likes.forEach((userLike) => {
             if (userLike === user) {
+              console.log("Enters innit", this.postData.content);
               this.isLiked = true;
             }
           })
@@ -42,13 +43,17 @@ export class TextPostComponent implements OnInit {
       this.requestService.addLikeToPost(this.userToken!, this.postData._id)
       .subscribe((likeSuccess) => {
         console.log("IS LIKED?", likeSuccess);
-        if(likeSuccess) {
+        if (likeSuccess) {
           this.isLiked = !this.isLiked;
           this.likeCounter++;
         }
       })
+    } else {
+      this.requestService.removeLikeOfPost(this.userToken!, this.postData._id)
+      .subscribe();
+      this.isLiked = false;
+      this.likeCounter--;
     }
-    // this.isLiked = !this.isLiked;
   }
 
   
